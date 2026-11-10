@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Test interactivo: Sensores e IoT</title>
+<style>
+:root{font-family:system-ui,Segoe UI,sans-serif;color:#172033;background:#f3f6fb}body{margin:0}header{background:#74123c;color:white;padding:24px max(20px,calc((100% - 900px)/2))}main{max-width:900px;margin:24px auto;padding:0 16px}.intro,.card{background:white;border-radius:14px;padding:20px;margin-bottom:14px;box-shadow:0 3px 12px #17203312}.progress{font-weight:700}.question{font-size:1.08rem;font-weight:650;margin:0 0 14px}.option{display:block;width:100%;text-align:left;padding:11px 14px;margin:8px 0;border:1px solid #cbd5e1;border-radius:9px;background:white;font:inherit;cursor:pointer}.option:hover:not(:disabled){border-color:#74123c;background:#fff7fa}.option:disabled{cursor:default}.option.correct{background:#e5f6ec;border-color:#1a8c4a;color:#14532d}.option.wrong{background:#fff0f0;border-color:#c43a3a;color:#7f1d1d}.feedback{font-weight:650;min-height:1.4em;margin-top:10px}.ok{color:#16733c}.bad{color:#b42318}.tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.tools button{padding:10px 16px;border:0;border-radius:9px;background:#74123c;color:white;font:inherit;cursor:pointer}.tools button.secondary{background:#475569}#score{font-size:1.1rem;font-weight:700}footer{color:#536174;font-size:.9rem;padding:12px 0 30px}
+</style></head><body><header><h1>Test interactivo: Sensores e IoT</h1><div>60 preguntas · Selecciona una opción y comprueba al instante si has acertado.</div></header><main><section class="intro"><div class="tools"><span class="progress" id="progress"></span><span id="score"></span><button class="secondary" onclick="resetQuiz()">Reiniciar test</button></div></section><div id="quiz"></div><footer>El test funciona localmente en tu navegador; no envía tus respuestas a ningún sitio.</footer></main>
+<script>
+const qs=[
+['¿Para qué se utilizan los sensores en una ciudad inteligente?',['Medir variables y apoyar decisiones o servicios urbanos','Solo almacenar documentos','Sustituir las redes','Evitar actuadores'],0],
+['¿Qué ocurre con la resistencia de una LDR cuando aumenta la luz?',['Aumenta siempre','Disminuye','Se convierte en temperatura','No cambia'],1],
+['¿Qué sensor detecta cambios de infrarrojo asociados al movimiento?',['DHT22','PIR','LDR','TCS3200'],1],
+['¿Cómo mide la distancia un sensor ultrasónico?',['Mide el color','Calcula el tiempo de retorno del eco','Cuenta satélites','Mide humedad'],1],
+['¿Cuál mide temperatura de forma digital?',['DS18B20','Reed','LDR','Micrófono'],0],
+['¿Qué componente combina humedad y temperatura?',['HC-SR04','DHT22','GPS','Reed'],1],
+['¿Qué sensor puede detectar presencia mediante cambios infrarrojos?',['PIR','pH','LDR','TCS3200'],0],
+['¿Qué tecnología usa LIDAR para medir distancias?',['Ondas de sonido','Pulsos láser','Resistencia por humedad','Satélites únicamente'],1],
+['¿Qué permite calcular la posición mediante GPS?',['Señales y tiempos de satélites','Color y sonido','Presión de tuberías','Resistencia LDR'],0],
+['¿Qué mide principalmente un giróscopo?',['Humedad','Orientación o velocidad angular','pH','Intensidad sonora'],1],
+['¿Qué convierte variaciones de presión del aire en una señal eléctrica?',['Micrófono','Termopar','Reed','GPS'],0],
+['¿Qué detecta un sensor de contacto?',['Contacto, apertura o cierre','Posición de satélites','Calidad del aire directamente','Mensajes MQTT'],0],
+['En M = (L · C) + P, ¿qué significa +?',['AND','OR','NOT','XOR'],1],
+['Según la ecuación de la barrera, ¿cuándo se abre sin pulsar el botón?',['Si hay coche y es de día','Solo de noche','Si no hay coche','Si falla el sensor'],0],
+['¿Qué mide el pH?',['Velocidad','Acidez o alcalinidad','Distancia','Iluminación'],1],
+['¿Para qué sirve un sensor de nivel de agua en la ciudad?',['Avisar de posibles inundaciones','Identificar colores','Medir velocidad de buses','Regular micrófonos'],0],
+['¿Para qué puede servir detectar el tráfico?',['Ajustar semáforos según las condiciones','Cambiar el pH','Medir solo humedad del suelo','Desactivar redes'],0],
+['¿Qué puede hacer el alumbrado inteligente?',['Ajustar luz según ambiente o presencia','Calcular punto de rocío','Sustituir sensores de temperatura','Transmitir solo por USB'],0],
+['¿Dónde se procesa cerca del sensor en una arquitectura IoT?',['Edge','Cloud','Centro de notificaciones','Dashboard'],0],
+['¿Qué función se asocia principalmente a la nube?',['Almacenar y analizar grandes volúmenes de datos','Detectar movimiento con PIR','Medir físicamente temperatura','Convertir sonido en presión'],0],
+['¿Qué describe mejor el nivel fog?',['Procesamiento intermedio local entre edge y cloud','Sensor de color','Lenguaje Arduino','Actuador de riego'],0],
+['¿Cuál es un actuador?',['Una válvula que se abre por una orden','Un sensor de temperatura','Un dato de humedad','Una dirección I²C'],0],
+['¿Qué criterio ayuda a elegir entre Wi‑Fi, Zigbee o LoRa?',['Alcance y consumo requeridos','Nombre del sensor','Color de la placa','Marca del monitor'],0],
+['¿Qué ventaja puede aportar el procesamiento edge?',['Menor latencia','Más residuos','Siempre menos sensores','Eliminar toda seguridad'],0],
+['¿Qué tecnología inalámbrica ofrece opciones de largo alcance y bajo consumo?',['LoRa','I²C','USB','VGA'],0],
+['¿Qué facilita una plataforma IoT?',['Recoger, procesar y visualizar datos','Sustituir sensores por cables','Evitar almacenar lecturas','Convertir todo dato en alarma'],0],
+['¿Cuál es una plataforma de AWS que admite MQTT/HTTPS?',['AWS IoT Core','ThingsBoard','Arduino IDE','Leaflet'],0],
+['¿Qué herramienta se integra con MATLAB para proyectos IoT?',['ThingSpeak','HC-SR04','LoRa','PySerial'],0],
+['¿Qué puede ser una ventaja del código abierto?',['Flexibilidad y personalización','Sin mantenimiento','Escalabilidad ilimitada garantizada','Sin comunidad'],0],
+['¿Qué conviene valorar al elegir plataforma?',['Compatibilidad, seguridad, coste y escalabilidad','Solo su color','Longitud del nombre','Tamaño del monitor'],0],
+['¿El Arduino UNO R3 incorpora Wi‑Fi de serie?',['Sí, siempre','No; se puede añadir un módulo','Solo al usar I²C','Sí, solo para Bluetooth'],1],
+['¿Qué hace Serial.begin(9600)?',['Inicia comunicación serie a 9600 baudios','Lee humedad','Activa D9','Configura ThingSpeak'],0],
+['¿Para qué se usa el monitor serie?',['Ver mensajes y ayudar a depurar','Crear un sensor GPS','Almacenar en nube sin conexión','Añadir widgets'],0],
+['¿Qué ocurre con el programa tras cargarse en Arduino?',['Puede ejecutarse autónomamente al alimentar la placa','Hay que recompilarlo cada segundo','Se convierte en sensor','Deja de usar memoria'],0],
+['¿Qué dos líneas usa I²C?',['SDA y SCL','TX y RX únicamente','VCC y GND como datos','MQTT y HTTP'],0],
+['En I²C, ¿qué línea lleva los datos?',['SDA','SCL','GND','VIN'],0],
+['¿Para qué sirven las direcciones de dispositivos I²C?',['Identificar cada dispositivo conectado','Elegir una nube por sensor','Medir temperatura','Limitar el bus a uno'],0],
+['¿Qué es MQTT?',['Protocolo ligero de publicación/suscripción','Termistor','Lenguaje para calibrar pH','Sensor de proximidad'],0],
+['¿Qué intermedia mensajes en MQTT?',['Broker','Giróscopo','LDR','Protoboard'],0],
+['¿Qué debe valorarse al elegir una tecnología de transmisión?',['Alcance, movilidad, recursos y seguridad','Solo temperatura','Color del USB','Columnas del panel'],0],
+['¿Qué variables se leen con el DHT11 del ejemplo?',['Temperatura y humedad','Posición y velocidad','pH y color','Sonido y distancia'],0],
+['¿Para qué sirve PySerial en el ejemplo?',['Leer datos del puerto serie desde Python','Crear un ultrasónico','Cambiar firmware de ThingSpeak','Calcular direcciones GPS'],0],
+['¿Qué se configura para que ThingsBoard reciba datos de un equipo?',['El dispositivo y su conexión','Una bibliografía','Un mapa Leaflet','Una LDR'],0],
+['¿Qué muestra una tabla de entidades en ThingsBoard?',['Entidades y valores recientes','Código Arduino solamente','Tiendas de sensores','Fórmula de pH'],0],
+['¿Qué representa un gráfico de series temporales?',['La evolución de las mediciones en el tiempo','Direcciones I²C','Cableado','Dimensiones del nodo'],0],
+['¿Qué activa la alarma de temperatura del ejemplo?',['Una lectura superior al umbral configurado','Humedad cero siempre','Desconectar dashboard','Abrir monitor serie'],0],
+['¿Qué permite un widget de tabla de alarmas?',['Consultar alarmas, estado o gravedad','Calcular temperatura desde RGB','Añadir direcciones GPS','Programar contacto'],0],
+['¿Para qué se usa MATLAB en la actividad de ThingSpeak?',['Procesar datos y calcular punto de rocío','Conectar físicamente DHT11','Sustituir Wi‑Fi','Medir sonido'],0],
+['¿Qué dato se usa junto con la temperatura para calcular punto de rocío?',['Humedad relativa','Solo velocidad del viento','Color de superficie','Posición GPS'],0],
+['¿Qué hace TimeControl en ThingSpeak?',['Programa ejecuciones periódicas','Cambia el sensor','Aumenta resolución Arduino','Configura I²C'],0],
+['¿Qué componente se propone para manejar un ventilador DC desde Arduino?',['Transistor NPN','LDR','Reed','GPS'],0],
+['¿Para qué se coloca un diodo en paralelo con el motor?',['Proteger el transistor de picos de tensión','Aumentar humedad','Medir velocidad','Comunicar MQTT'],0],
+['¿Para qué sirve la resistencia entre la salida Arduino y la base del transistor?',['Limitar la corriente de base','Medir temperatura','Crear dirección IP','Activar GPS'],0],
+['¿Qué impactos negativos pueden tener dispositivos IoT?',['Consumo energético y residuos electrónicos','Reducir automáticamente todo residuo','Eliminar electricidad','Evitar mantenimiento'],0],
+['¿Cuál es una estrategia para reducir impacto ambiental?',['Bajo consumo y reciclaje','Sustituir dispositivos cada mes','Evitar actualizaciones','Aumentar consumo continuo'],0],
+['¿Qué mejora precisión y fiabilidad de los datos?',['Calibración, redundancia y monitoreo','Eliminar mediciones repetidas','Desactivar revisiones','Ignorar desviaciones'],0],
+['¿Qué significa interoperabilidad?',['Dispositivos distintos pueden comunicarse y trabajar juntos','Todos son del mismo color','Funcionan sin datos','No usan plataformas'],0],
+['¿Qué medida apoya la privacidad?',['Controlar accesos y anonimizar cuando corresponda','Publicar datos personales','Evitar protección','Compartir contraseñas'],0],
+['¿Qué papel tiene la comunidad local?',['Participar y expresar necesidades y preocupaciones','Sustituir mantenimiento técnico','Evitar transparencia','Desactivar redes'],0],
+['¿Cuál resume el ciclo básico de una solución IoT?',['Sensorizar, comunicar, analizar, visualizar y actuar','Imprimir, archivar, desconectar y borrar','Actuar sin medir ni comunicar','Visualizar sin recoger datos'],0]
+];
+// Baraja las opciones manteniendo el índice correcto
+const state=qs.map(([q,opts,correct])=>{const a=opts.map((t,i)=>({t,ok:i===correct}));for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return {q,a,chosen:null}});
+function render(){let score=state.filter(x=>x.chosen!==null&&x.a[x.chosen].ok).length;let done=state.filter(x=>x.chosen!==null).length;document.getElementById('progress').textContent=`Respondidas: ${done}/${state.length}`;document.getElementById('score').textContent=`Aciertos: ${score}`;document.getElementById('quiz').innerHTML=state.map((x,i)=>`<section class="card"><p class="question">${i+1}. ${x.q}</p>${x.a.map((o,j)=>`<button class="option ${x.chosen===j?(o.ok?'correct':'wrong'):''}" ${x.chosen!==null?'disabled':''} onclick="answer(${i},${j})">${String.fromCharCode(65+j)}. ${o.t}</button>`).join('')}<div class="feedback ${x.chosen===null?'':x.a[x.chosen].ok?'ok':'bad'}">${x.chosen===null?'':x.a[x.chosen].ok?'¡Correcto!':'Incorrecto. La respuesta correcta está marcada en verde.'}</div></section>`).join('')}
+function answer(i,j){if(state[i].chosen===null){state[i].chosen=j;render()}}function resetQuiz(){location.reload()}render();
+</script></body></html>
